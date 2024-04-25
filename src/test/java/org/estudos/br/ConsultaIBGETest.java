@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ConsultaIBGETest {
     private static final String ESTADOS_API_URL = "https://servicodados.ibge.gov.br/api/v1/localidades/estados/";
 
+    private static final String DISTRITOS_API_URL = "https://servicodados.ibge.gov.br/api/v1/localidades/distritos/";
 
     @Test
     @DisplayName("Teste para consulta única de um estado")
@@ -30,4 +31,43 @@ public class ConsultaIBGETest {
         int statusCode = connection.getResponseCode();
         assertEquals(200, statusCode, "O status code da resposta da API deve ser 200 (OK)");
     }
+
+    @Test
+    @DisplayName("Teste para consulta única de um estado")
+    public void testConsultarEstadoRJ() throws IOException {
+        // Arrange
+        String uf = "RJ"; // Define o estado a ser consultado
+
+        // Act
+        String resposta = ConsultaIBGE.consultarEstado(uf); // Chama o método a ser testado
+
+        // Assert
+        // Verifica se a resposta não está vazia
+        assert !resposta.isEmpty();
+
+        // Verifica se o status code é 200 (OK)
+        HttpURLConnection connection = (HttpURLConnection) new URL(ESTADOS_API_URL + uf).openConnection();
+        int statusCode = connection.getResponseCode();
+        assertEquals(200, statusCode, "O status code da resposta da API deve ser 200 (OK)");
+    }
+
+    @Test
+    @DisplayName("Teste para consulta única de um estado")
+    public void testConsultarDistritoPorID() throws IOException {
+        // Arrange
+        String id = "520005005"; // Define o id para distrito Abadia de Goias
+
+        // Act
+        String resposta = ConsultaIBGE.consultarEstado(id); // Chama o método a ser testado
+
+        // Assert
+        // Verifica se a resposta não está vazia
+        assert !resposta.isEmpty();
+
+        // Verifica se o status code é 200 (OK)
+        HttpURLConnection connection = (HttpURLConnection) new URL(DISTRITOS_API_URL + id).openConnection();
+        int statusCode = connection.getResponseCode();
+        assertEquals(200, statusCode, "O status code da resposta da API deve ser 200 (OK)");
+    }
+
 }
